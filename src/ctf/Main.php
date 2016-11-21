@@ -378,7 +378,7 @@ Class Main extends PluginBase implements Listener{
 		    $this->broadcastPacket($tempPk, $teams);
 		    //$armor = []; // TODO
 		    foreach($this->getServer()->getOnlinePlayers() as $other){
-			    if($team->getID() !== $other->getID()){
+			    if($teams->getID() !== $other->getID()){
 				    $other->dataPacket($pk);
 			    }
 		    }
