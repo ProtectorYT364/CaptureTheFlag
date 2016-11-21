@@ -353,29 +353,37 @@ Class Main extends PluginBase implements Listener{
     }
    
     public function giveTeamItems($player) { //gives items to $player according to which team he is on
-		$p = $this->getServer()->getPlayer($player);
-		$inv = $p->getInventory();
-		$inv->setContents([]);
-		$inv->setArmorItem(0, Item::get(Item::IRON_HELMET));
-		$inv->setArmorItem(1, Item::get(Item::LEATHER_TUNIC));
-		$inv->setArmorItem(2, Item::get(Item::IRON_LEGGINGS));
-		$inv->setArmorItem(3, Item::get(Item::CHAIN_BOOTS));
-		$inv->sendArmorContents($p);
-		$inv->addItem(Item::get(Item::STEAK, 0, 5));
-		$inv->addItem(Item::get(Item::STONE_SWORD, 0, 1));
-		$inv->addItem(Item::get(Item::BOW, 0, 1));
-		$inv->addItem(Item::get(Item::ARROW, 0, 32));
-		$inv->sendContents($p);
-		$pk = new PlayerArmorEquipmentPacket;
-		$pk->eid = $p->getID();
-		$armor = []; // TODO
-		$pk->slots = $armor;
-		foreach($this->getServer()->getOnlinePlayers() as $other){
-			if($p->getID() !== $other->getID()){
-				$other->dataPacket($pk);
-			}
-		}
-	}
+	    $red = $this->temp["RedPlayers"]; //sends minor error cuz not set yet 
+	    $blue = $this->temp["BluePlayers"];
+	    $team = array($red, $blue);
+	    $p = $this->getServer()->getPlayer($player);
+	    $inv = $p->getInventory();
+	    $inv->setContents([]);
+	    $inv->setArmorItem(0, Item::get(Item::IRON_HELMET));
+	    $inv->setArmorItem(1, Item::get(Item::LEATHER_TUNIC));
+	    $inv->setArmorItem(2, Item::get(Item::IRON_LEGGINGS));
+	    $inv->setArmorItem(3, Item::get(Item::CHAIN_BOOTS));
+	    $inv->sendArmorContents($p);
+	    $inv->addItem(Item::get(Item::STEAK, 0, 5));
+	    $inv->addItem(Item::get(Item::STONE_SWORD, 0, 1));
+	    $inv->addItem(Item::get(Item::BOW, 0, 1));
+	    $inv->addItem(Item::get(Item::ARROW, 0, 32));
+	    $inv->sendContents($p);
+	    $pk = new PlayerArmorEquipmentPacket;
+	    $pk->eid = $p->getID();
+	    $pk->slots = $team->getArmor();
+	    foreach($p as $teams){
+		    $tempPk = clone $pk;
+		    $tempPk->eid = $teams->getID();
+		    $this->broadcastPacket($tempPk, $teams);
+		    //$armor = []; // TODO
+		    foreach($this->getServer()->getOnlinePlayers() as $other){
+			    if($team->getID() !== $other->getID()){
+				    $other->dataPacket($pk);
+			    }
+		    }
+	    }
+    }
 	
     public function onDisable() {
         $this->getConfig()->save();
