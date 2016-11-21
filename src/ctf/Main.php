@@ -182,7 +182,7 @@ Class Main extends PluginBase implements Listener{
                 $this->broadcastScore($player);
                     if (isset($this->temp[$player->getName()])) {
                     unset($this->temp[$player->getName()]);
-                    $player->setNameTag(TextFormat::RED." . $player->getName());                    
+                    $player->setNameTag(TextFormat::RED." ". $player->getName());                    
                     }
                 }
               } 
@@ -202,7 +202,7 @@ Class Main extends PluginBase implements Listener{
                     $this->broadcastScore($player);
                     if (isset($this->temp[$player->getName()])) {
                     unset($this->temp[$player->getName()]);
-                    $player->setNameTag(TextFormat::BLUE." . $player->getName());
+                    $player->setNameTag(TextFormat::BLUE." ". $player->getName());
                     }
                 }
             }
@@ -282,7 +282,7 @@ Class Main extends PluginBase implements Listener{
             $event->setRespawnPosition($pos);
             $player->sendMessage(TextFormat::GREEN."You have been teleported to your base!");
             $this->giveTeamItems($player->getName());
-            $player->setNameTag(TextFormat::BLUE." . $player->getName());
+            $player->setNameTag(TextFormat::BLUE." ". $player->getName());
         }
         else if (is_array($this->temp["RedPlayers"]) && array_key_exists($player->getName(), $this->temp["RedPlayers"])) {
             $config = $this->getConfig()->get("RedSpawn");
@@ -290,7 +290,7 @@ Class Main extends PluginBase implements Listener{
             $event->setRespawnPosition($pos);
             $player->sendMessage(TextFormat::GREEN."You have been teleported to your base!");
             $this->giveTeamItems($player->getName());
-            $player->setNameTag(TextFormat::RED." . $player->getName());
+            $player->setNameTag(TextFormat::RED." ". $player->getName());
         }
         
         
@@ -323,13 +323,13 @@ Class Main extends PluginBase implements Listener{
         
         if ($assignment === "blue") {
                 $this->temp["BluePlayers"][$name] = true;
-                $player->setDisplayName(TextFormat::BLUE." . $name);
-                $player->setNameTag(TextFormat::BLUE." . $name);
+                $player->setDisplayName(TextFormat::BLUE." ". $name);
+                $player->setNameTag(TextFormat::BLUE." ". $name);
         }
         else {
                 $this->temp["RedPlayers"][$name] = true;
-                $player->setDisplayName(TextFormat::RED." . $name);
-                $player->setNameTag(TextFormat::RED." . $name);
+                $player->setDisplayName(TextFormat::RED." ". $name);
+                $player->setNameTag(TextFormat::RED." ". $name);
         }
         
         $player->sendMessage(TextFormat::YELLOW."You have been assigned to the " . $assignment . " team!");
@@ -380,4 +380,4 @@ Class Main extends PluginBase implements Listener{
     public function onDisable() {
         $this->getConfig()->save();
     }
-    }
+}
